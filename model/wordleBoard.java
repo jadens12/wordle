@@ -31,14 +31,14 @@ public class wordleBoard{
         Random rand = new Random();
         word = list.get(rand.nextInt(list.size()));
         wordArray = word.toCharArray();
-        words = new char[5][5];
-        for(int r = 0; r < 5; r++){
+        words = new char[6][5];
+        for(int r = 0; r < 6; r++){
             for(int c = 0; c < 5; c++){
                 words[r][c] = ' ';
             }
         }
 
-        wordsColor = new char[5][5];
+        wordsColor = new char[6][5];
         this.observers = new LinkedList<>();
         status = Status.NOT_OVER;
     }

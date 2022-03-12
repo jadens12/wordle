@@ -25,7 +25,7 @@ public class wordlePTUI implements observer<wordleBoard>{
     }
 
     public void update(wordleBoard board){
-        for (int row = 0; row < 5; row++){
+        for (int row = 0; row < 6; row++){
             for(int col = 0; col < 5; col++){
                 if(board.getWordsColors(row , col) == 'y'){
                     System.out.print("[" + GREEN + board.getWords(row, col) + RESET + "]");
@@ -47,7 +47,7 @@ public class wordlePTUI implements observer<wordleBoard>{
         System.out.println("Welcome to Wordle!");
         update(this.board);
         try(Scanner in = new Scanner(System.in)){
-            while(this.board.getStatus() == Status.NOT_OVER && count < 5){
+            while(this.board.getStatus() == Status.NOT_OVER && count < 6){
                 System.out.print("Enter a word (n for exit): ");
                 String guess = in.nextLine();
                 if(guess.equals("n")){
