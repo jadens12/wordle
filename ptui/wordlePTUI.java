@@ -55,12 +55,13 @@ public class wordlePTUI implements observer<wordleBoard>{
                 }
                 else if(this.board.isValidWord(guess)){
                     this.board.makeMove(guess, count);
+                    count++;
                 }
                 else{
                     System.out.println("Word is not in word list.");
                 }
-                count++;
             }
+            System.out.println("Congrats you won Wordle!");
         }
         
     }
