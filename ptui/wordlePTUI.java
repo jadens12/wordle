@@ -17,7 +17,6 @@ public class wordlePTUI implements observer<wordleBoard>{
     public wordlePTUI() throws IOException{
         this.board = new wordleBoard();
         initializeView();
-
     }
 
     private void initializeView(){
@@ -39,6 +38,18 @@ public class wordlePTUI implements observer<wordleBoard>{
             }
             System.out.println("\n");
         }
+        for (int i = 0; i < 26; i++){
+            if(board.getAlphabetColors(i) == 'y'){
+                System.out.print("[" + GREEN + board.getAlphabet(i) + RESET + "]");
+            }
+            else if(board.getAlphabetColors(i) == 'e'){
+                System.out.print("[" + YELLOW + board.getAlphabet(i) + RESET + "]");
+            }
+            else{
+                System.out.print("[" + board.getAlphabet(i) + "]");
+            }
+        }
+        System.out.println("\n");
     }
 
     public void run(){
@@ -61,9 +72,20 @@ public class wordlePTUI implements observer<wordleBoard>{
                     System.out.println("Word is not in word list.");
                 }
             }
-            System.out.println("Congrats you won Wordle!");
+            if(this.board.getStatus() == Status.WIN){
+                System.out.println("Congrats you won Wordle!");
+            }
+            else if (this.board.getStatus() == Status.LOST){
+                System.out.println("You lost Wordle");
+                System.out.println("The word is: " + this.board.getWord());
+            }
+            System.out.print("Want to play again? (y/n): ");
+            String answer = in.nextLine();
+            if (answer.equals("y")){
+                this.board.reset();
+                run();
+            }
         }
-        
     }
 
     public static void main(String [] args) throws IOException{
