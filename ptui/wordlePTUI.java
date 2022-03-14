@@ -13,7 +13,8 @@ public class wordlePTUI implements observer<wordleBoard>{
     public static final String RESET = "\033[0m";  // Text Reset
     public static final String YELLOW = "\033[0;33m";  // YELLOW
     public static final String GREEN = "\033[0;32m";   // GREEN
-
+    public static final String RED = "\033[0;31m";     // RED
+    
     public wordlePTUI() throws IOException{
         this.board = new wordleBoard();
         initializeView();
@@ -45,6 +46,9 @@ public class wordlePTUI implements observer<wordleBoard>{
             else if(board.getAlphabetColors(i) == 'e'){
                 System.out.print("[" + YELLOW + board.getAlphabet(i) + RESET + "]");
             }
+            else if (board.getAlphabetColors(i) == 'n'){
+                System.out.print("[" + RED + board.getAlphabet(i) + RESET + "]");
+            }
             else{
                 System.out.print("[" + board.getAlphabet(i) + "]");
             }
@@ -54,7 +58,7 @@ public class wordlePTUI implements observer<wordleBoard>{
 
     public void run(){
         int count = 0;
-        System.out.println("The word is: " + this.board.getWord());
+        //System.out.println("The word is: " + this.board.getWord());
         System.out.println("Welcome to Wordle!");
         update(this.board);
         try(Scanner in = new Scanner(System.in)){
@@ -62,7 +66,7 @@ public class wordlePTUI implements observer<wordleBoard>{
                 System.out.print("Enter a word (n for exit): ");
                 String guess = in.nextLine();
                 if(guess.equals("n")){
-                    return ;
+                    break;
                 }
                 else if(this.board.isValidWord(guess)){
                     this.board.makeMove(guess, count);
@@ -75,7 +79,7 @@ public class wordlePTUI implements observer<wordleBoard>{
             if(this.board.getStatus() == Status.WIN){
                 System.out.println("Congrats you won Wordle!");
             }
-            else if (this.board.getStatus() == Status.LOST){
+            else if (this.board.getStatus() == Status.LOST || this.board.getStatus() == Status.NOT_OVER){
                 System.out.println("You lost Wordle");
                 System.out.println("The word is: " + this.board.getWord());
             }
