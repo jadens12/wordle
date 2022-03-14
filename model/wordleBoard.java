@@ -12,7 +12,8 @@ public class wordleBoard{
 
     public enum Status{
         NOT_OVER,
-        OVER
+        WIN,
+        LOST
     }
 
     private Status status;
@@ -22,13 +23,14 @@ public class wordleBoard{
     private List<observer<wordleBoard>> observers;
     private char[][] words;
     private char[][] wordsColor;
-
-    
-    
+    private Random rand;
+    private char [] alphabet;
+    private char [] alphabetColors;
+  
     public wordleBoard() throws IOException{
         this.list = new ArrayList<>();
         setWordList("words.txt");
-        Random rand = new Random();
+        rand = new Random();
         word = list.get(rand.nextInt(list.size()));
         wordArray = word.toCharArray();
         words = new char[6][5];
@@ -37,7 +39,8 @@ public class wordleBoard{
                 words[r][c] = ' ';
             }
         }
-
+        alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        alphabetColors = new char[26];
         wordsColor = new char[6][5];
         this.observers = new LinkedList<>();
         status = Status.NOT_OVER;
@@ -65,6 +68,14 @@ public class wordleBoard{
         return wordsColor[row][col];
     }
 
+    public char getAlphabet(int index){
+        return alphabet[index];
+    }
+
+    public char getAlphabetColors(int index){
+        return alphabetColors[index];
+    }
+
     public Status getStatus(){
         return status;
     }
@@ -81,27 +92,54 @@ public class wordleBoard{
     public void makeMove(String str, int row){
         if(str.equals(word)){
             for(int i = 0; i < 5; i++){
-                words[row][i] = str.charAt(i);
+                char c = str.charAt(i);
+                int index = new String(alphabet).indexOf(c);
+                words[row][i] = c;
+                alphabetColors[index] = 'y';
                 wordsColor[row][i] = 'y';
             }
-            status = Status.OVER;
+            status = Status.WIN;
         }
         else{
             for(int i = 0; i < 5; i++){
-                if(wordArray[i] == str.charAt(i)){
-                    words[row][i] = str.charAt(i);
+                char c = str.charAt(i);
+                int index = new String(alphabet).indexOf(c);
+                if(wordArray[i] == c){
+                    words[row][i] = c;
+                    alphabetColors[index] = 'y';
                     wordsColor[row][i] = 'y';
                 }
-                else if(word.contains("" + str.charAt(i))){
-                    words[row][i] = str.charAt(i);
+                else if(word.contains("" + c)){
+                    words[row][i] = c;
+                    alphabetColors[index] = 'e';
                     wordsColor[row][i] = 'e';
                 }
                 else{
-                    words[row][i] = str.charAt(i);
+                    words[row][i] = c;
+                    alphabetColors[index] = 'n';
                     wordsColor[row][i] = 'n';
                 }
             }
         }
+        if(row == 5 && status != Status.WIN){
+            status = Status.LOST;
+        }
+        notifyObservers();
+    }
+
+    public void reset(){
+        for (int row = 0; row < 6; row++){
+            for (int col = 0; col < 5; col++){
+                words[row][col] = ' ';
+                wordsColor[row][col] = ' ';
+            }
+        }
+        for (int i = 0; i < 26; i++){
+            alphabetColors[i] = ' ';
+        }
+        this.status = Status.NOT_OVER;
+        word = list.get(rand.nextInt(list.size()));
+        wordArray = word.toCharArray();
         notifyObservers();
     }
 
