@@ -140,7 +140,6 @@ public class wordleBoard{
         this.status = Status.NOT_OVER;
         word = list.get(rand.nextInt(list.size()));
         wordArray = word.toCharArray();
-        notifyObservers();
     }
 
     public void setWordList(String filename) throws IOException {
