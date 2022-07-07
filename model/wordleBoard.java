@@ -26,22 +26,26 @@ public class wordleBoard{
     private Random rand;
     private char [] alphabet;
     private char [] alphabetColors;
+    private int ROWS;
+    private int COLS;
   
-    public wordleBoard() throws IOException{
+    public wordleBoard(int row, int col) throws IOException{
+        ROWS = row;
+        COLS = col;
         this.list = new ArrayList<>();
         setWordList("words.txt");
         rand = new Random();
         word = list.get(rand.nextInt(list.size()));
         wordArray = word.toCharArray();
-        words = new char[6][5];
-        for(int r = 0; r < 6; r++){
-            for(int c = 0; c < 5; c++){
+        words = new char[ROWS][COLS];
+        for(int r = 0; r < ROWS; r++){
+            for(int c = 0; c < COLS; c++){
                 words[r][c] = ' ';
             }
         }
         alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
         alphabetColors = new char[26];
-        wordsColor = new char[6][5];
+        wordsColor = new char[ROWS][COLS];
         this.observers = new LinkedList<>();
         status = Status.NOT_OVER;
     }
@@ -91,7 +95,7 @@ public class wordleBoard{
 
     public void makeMove(String str, int row){
         if(str.equals(word)){
-            for(int i = 0; i < 5; i++){
+            for(int i = 0; i < COLS; i++){
                 char c = str.charAt(i);
                 int index = new String(alphabet).indexOf(c);
                 words[row][i] = c;
@@ -101,7 +105,7 @@ public class wordleBoard{
             status = Status.WIN;
         }
         else{
-            for(int i = 0; i < 5; i++){
+            for(int i = 0; i < COLS; i++){
                 char c = str.charAt(i);
                 int index = new String(alphabet).indexOf(c);
                 if(wordArray[i] == c){
@@ -121,15 +125,15 @@ public class wordleBoard{
                 }
             }
         }
-        if(row == 5 && status != Status.WIN){
+        if(row == ROWS && status != Status.WIN){
             status = Status.LOST;
         }
         notifyObservers();
     }
 
     public void reset(){
-        for (int row = 0; row < 6; row++){
-            for (int col = 0; col < 5; col++){
+        for (int row = 0; row < ROWS; row++){
+            for (int col = 0; col < COLS; col++){
                 words[row][col] = ' ';
                 wordsColor[row][col] = ' ';
             }

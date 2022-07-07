@@ -850,7 +850,6 @@ coati
 coats
 cobia
 cobra
-cocci
 cocks
 cocky
 cocoa
@@ -2507,3 +2506,12 @@ medic
 honed
 foggy
 rusts
+hiked
+mound
+scold
+nomad
+mined
+hiker
+miner
+livid
+spies

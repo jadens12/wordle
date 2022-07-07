@@ -16,7 +16,7 @@ public class wordlePTUI implements observer<wordleBoard>{
     public static final String RED = "\033[0;31m";     // RED
     
     public wordlePTUI() throws IOException{
-        this.board = new wordleBoard();
+        this.board = new wordleBoard(6, 5);
         initializeView();
     }
 
